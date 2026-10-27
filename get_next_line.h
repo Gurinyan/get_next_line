@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rutakano <rutakano@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/27 19:11:54 by rutakano          #+#    #+#             */
+/*   Updated: 2026/10/27 19:11:56 by rutakano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef GET_NEXT_LINE
 # define GET_NEXT_LINE
 
@@ -9,6 +21,7 @@
 # define BUFFER_SIZE=42
 #endif
 
-int	ft_malloc_line(char **str, int len);
-
+int		ft_malloc_line(char **str, int len);
+char	*ft_realloc(char *str, size_t size);
+char	*ft_free_candidates(char *buff, char *str, char *surplus);
 #endif

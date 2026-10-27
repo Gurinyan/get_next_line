@@ -1,4 +1,15 @@
-#include "get_num_line.h"
+#include "get_next_line.h"
+
+char	*ft_free_candidates(char *buff, char *str, char *surplus)
+{
+	if (buff != NULL)
+		free(buff);
+	if (str != NULL)
+		free(str);
+	if (buff != NULL)
+		free(surplus);
+	return (NULL);
+}
 
 int	ft_malloc_line(char **str, int len)
 {
@@ -14,6 +25,7 @@ char	*ft_realloc(char *str, size_t size)
 	char	*buff;
 
 	if ((size_t)-1 / size < 2)
+		return (NULL);
 	buff = malloc(sizeof(char) * (size * 2));
 	if (buff == NULL)
 		return (NULL);
