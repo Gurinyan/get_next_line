@@ -1,12 +1,33 @@
 #include "get_next_line.h"
 
-char	*ft_free_candidates(char *buff, char *str, char *surplus)
+int	ft_strdup(char *src, char **str)
+{
+	size_t	i;
+	size_t	count;
+
+	i = 0;
+	count = 0;
+	while (src[count] != '\0')
+		count++;
+	*str = malloc(sizeof(char) * (count + 1));
+	if (*str == NULL)
+		return (0);
+	while (i < count)
+	{
+		(*str)[i] = src[i];
+		i++;
+	}
+	(*str)[i] = '\0';
+	return (1);
+}
+
+char	*ft_free_candidates(char *buff, char *line, char *surplus)
 {
 	if (buff != NULL)
 		free(buff);
-	if (str != NULL)
-		free(str);
-	if (buff != NULL)
+	if (line != NULL)
+		free(line);
+	if (surplus != NULL)
 		free(surplus);
 	return (NULL);
 }

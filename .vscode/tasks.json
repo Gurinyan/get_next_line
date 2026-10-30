@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build get_next_line debug",
+      "type": "process",
+      "command": "gcc",
+      "args": [
+        "-g3", "-O0", "-Wall", "-Wextra", "-DBUFFER_SIZE=1024",
+        "${workspaceFolder}/get_next_line.c",
+        "${workspaceFolder}/get_next_line_utils.c",
+        "-o", "${workspaceFolder}/.vscode/get_next_line_debug"
+      ],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+      "group": { "kind": "build", "isDefault": true }
+    }
+  ]
+}
