@@ -17,13 +17,18 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stddef.h>
+#include <unistd.h>
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1024
 #endif
 
 int		ft_malloc_line(char **str, int len);
-char	*ft_realloc(char *str, size_t size);
-int		ft_strdup(char *src, char **str);
+char	*ft_realloc(char *str, size_t *size);
+//char	*ft_realloc(char *str);
+//int		ft_strdup(char *src, char **str);
+char	*ft_make_surplus(char *src, size_t len);
+size_t	ft_strlen(char *str);
 char	*ft_free_candidates(char *buff, char *line, char *surplus);
 #endif

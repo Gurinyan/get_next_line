@@ -1,26 +1,5 @@
 #include "get_next_line.h"
 
-int	ft_strdup(char *src, char **str)
-{
-	size_t	i;
-	size_t	count;
-
-	i = 0;
-	count = 0;
-	while (src[count] != '\0')
-		count++;
-	*str = malloc(sizeof(char) * (count + 1));
-	if (*str == NULL)
-		return (0);
-	while (i < count)
-	{
-		(*str)[i] = src[i];
-		i++;
-	}
-	(*str)[i] = '\0';
-	return (1);
-}
-
 char	*ft_free_candidates(char *buff, char *line, char *surplus)
 {
 	if (buff != NULL)
@@ -40,22 +19,39 @@ int	ft_malloc_line(char **str, int len)
 	return (1);
 }
 
-char	*ft_realloc(char *str, size_t size)
+void	ft_strcat(char **surplus, char *buff, size_t len)
+{
+
+}
+
+char	*ft_realloc(char *str, size_t *size)
 {
 	size_t	i;
-	char	*buff;
+	char	*line;
 
-	if ((size_t)-1 / size < 2)
+	*size = ft_strlen(str);
+	if ((size_t)-1 - *size < BUFFER_SIZE)
 		return (NULL);
-	buff = malloc(sizeof(char) * (size * 2));
-	if (buff == NULL)
+	line = malloc(sizeof(char) * (*size + BUFFER_SIZE + 1));
+	if (line == NULL)
 		return (NULL);
 	i = 0;
-	while (i < size)
+	while (i < *size)
 	{
-		buff[i] = str[i];
+		line[i] = str[i];
 		i++;
 	}
+	*size = *size + BUFFER_SIZE;
 	free(str);
-	return (buff);
+	return (line);
+}
+
+size_t	ft_strlen(char *str)
+{
+	size_t	count;
+
+	count = 0;
+	while (str[count] != '\0')
+		count++;
+	return (count);
 }
