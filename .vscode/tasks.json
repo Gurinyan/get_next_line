@@ -6,7 +6,7 @@
       "type": "process",
       "command": "gcc",
       "args": [
-        "-g3", "-O0", "-Wall", "-Wextra", "-DBUFFER_SIZE=1024",
+        "-g3", "-O0", "-Wall", "-Wextra", "-DBUFFER_SIZE=10",
         "${workspaceFolder}/get_next_line.c",
         "${workspaceFolder}/get_next_line_utils.c",
         "-o", "${workspaceFolder}/.vscode/get_next_line_debug"

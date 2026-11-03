@@ -11,17 +11,40 @@ char	*ft_free_candidates(char *buff, char *line, char *surplus)
 	return (NULL);
 }
 
-int	ft_malloc_line(char **str, int len)
+void	lst_add_back(t_file **files, t_file *new)
 {
-	*str = malloc(sizeof(char) * len);
-	if (*str == NULL)
-		return (0);
-	return (1);
+	t_file	*current;
+
+	current = *files;
+	if (files == NULL)
+		return ;
+	while (current->next != NULL)
+		current = current->next;
+	if (*files == NULL)
+		*files = new;
+	else
+		current->next = new;
 }
 
-void	ft_strcat(char **surplus, char *buff, size_t len)
+t_file	*find_file_node(t_file *files, int fd)
 {
+	t_file	*file;
 
+	while (files != NULL)
+	{
+		if (fd == files->fd)
+			return (files);
+		files = files->next;
+	}
+	file = malloc(sizeof(t_file));
+	if (file == NULL)
+		return (NULL);
+	file->surplus = ft_make_surplus("", 0);
+	if (file->surplus == NULL)
+		return (NULL);
+	file->fd = fd;
+	file->next = NULL;
+	return (file);
 }
 
 char	*ft_realloc(char *str, size_t *size)
