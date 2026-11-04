@@ -3,15 +3,16 @@
   "configurations": [
     {
       "name": "Debug get_next_line",
-      "type": "cppdbg",
+      "type": "lldb",
       "request": "launch",
       "program": "${workspaceFolder}/.vscode/get_next_line_debug",
       "args": [],
-      "stopAtEntry": true,
+      "stopOnEntry": false,
+      "preRunCommands": [
+        "breakpoint set --name main"
+      ],
       "cwd": "${workspaceFolder}",
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "miDebuggerPath": "/usr/bin/gdb",
+      "terminal": "integrated",
       "preLaunchTask": "build get_next_line debug"
     }
   ]

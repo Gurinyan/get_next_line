@@ -4,9 +4,9 @@
     {
       "label": "build get_next_line debug",
       "type": "process",
-      "command": "gcc",
+      "command": "/usr/bin/clang",
       "args": [
-        "-g3", "-O0", "-Wall", "-Wextra", "-DBUFFER_SIZE=10",
+        "-g3", "-O0", "-fno-omit-frame-pointer", "-Wall", "-Wextra", "-DBUFFER_SIZE=10",
         "${workspaceFolder}/get_next_line.c",
         "${workspaceFolder}/get_next_line_utils.c",
         "-o", "${workspaceFolder}/.vscode/get_next_line_debug"

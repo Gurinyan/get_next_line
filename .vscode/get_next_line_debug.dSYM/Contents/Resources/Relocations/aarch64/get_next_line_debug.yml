@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/takanorui/get_next_line/.vscode/get_next_line_debug'
+relocations:     []
+...

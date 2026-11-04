@@ -19,6 +19,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <unistd.h>
+#include <limits.h>
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1024
@@ -40,5 +41,5 @@ char	*ft_make_surplus(char *src, size_t len);
 size_t	ft_strlen(char *str);
 char	*ft_free_candidates(char *buff, char *line, char *surplus);
 void	lst_add_back(t_file **files, t_file *new);
-t_file	*find_file_node(t_file *files, int fd);
+t_file	*find_file_node(t_file **files, t_file *file, int fd);
 #endif

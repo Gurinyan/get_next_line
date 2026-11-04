@@ -18,33 +18,36 @@ void	lst_add_back(t_file **files, t_file *new)
 	current = *files;
 	if (files == NULL)
 		return ;
-	while (current->next != NULL)
-		current = current->next;
-	if (*files == NULL)
+	if (current == NULL)
 		*files = new;
 	else
+	{
+		while (current->next != NULL)
+			current = current->next;
 		current->next = new;
+	}
 }
 
-t_file	*find_file_node(t_file *files, int fd)
+t_file	*find_file_node(t_file **files, t_file *file, int fd)
 {
-	t_file	*file;
+	t_file	*new;
 
-	while (files != NULL)
+	while (file != NULL)
 	{
-		if (fd == files->fd)
-			return (files);
-		files = files->next;
+		if (fd == file->fd)
+			return (file);
+		file = file->next;
 	}
-	file = malloc(sizeof(t_file));
-	if (file == NULL)
+	new = malloc(sizeof(t_file));
+	if (new == NULL)
 		return (NULL);
-	file->surplus = ft_make_surplus("", 0);
-	if (file->surplus == NULL)
+	new->surplus = ft_make_surplus("", 0);
+	if (new->surplus == NULL)
 		return (NULL);
-	file->fd = fd;
-	file->next = NULL;
-	return (file);
+	new->fd = fd;
+	new->next = NULL;
+	lst_add_back(files, new);
+	return (new);
 }
 
 char	*ft_realloc(char *str, size_t *size)
