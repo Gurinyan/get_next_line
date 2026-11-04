@@ -1,13 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rutakano <rutakano@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/04 11:02:58 by rutakano          #+#    #+#             */
+/*   Updated: 2026/11/04 11:02:59 by rutakano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-char	*ft_free_candidates(char *buff, char *line, char *surplus)
+char	*ft_free_candidates(char *buff, char *line, t_file *file)
 {
 	if (buff != NULL)
 		free(buff);
 	if (line != NULL)
 		free(line);
-	if (surplus != NULL)
-		free(surplus);
+	if (file != NULL)
+	{
+		free(file->surplus);
+	}
 	return (NULL);
 }
 

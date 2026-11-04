@@ -81,26 +81,9 @@ char	*ft_get_line(int fd, char *buff, char **surplus, size_t *idx)
 	}
 	if (read_byte != -1 && line[0] != '\0')
 		return (line);
-	return (NULL);
+	// 連結リストの解放処理をしたいが、入らない
+	return (ft_free_candidates(buff, line, *surplus));
 }
-
-//char	*get_next_line(int fd)
-//{
-//	size_t		idx;
-//	static char	*surplus;
-//	char		*buff;
-
-//	idx = 0;
-//	if (surplus == NULL)
-//		surplus = ft_make_surplus("", 0);
-//	if (surplus == NULL)
-//		return (NULL);
-//	buff = malloc(sizeof(int) * (BUFFER_SIZE + 1));
-//	if (buff == NULL)
-//		return (NULL);
-//	return (ft_get_line(fd, buff, &surplus, &idx));
-//}
-
 
 char	*get_next_line(int fd)
 {
@@ -110,7 +93,7 @@ char	*get_next_line(int fd)
 	char			*buff;
 
 	idx = 0;
-	if (fd == -1)
+	if (fd < 0)
 		return (NULL);
 	if (BUFFER_SIZE < 0 || BUFFER_SIZE >= INT_MAX)
 		return (NULL);
@@ -153,6 +136,4 @@ int	main(void)
 		printf("\n\n");
 		free(line);
 	}
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
 }
