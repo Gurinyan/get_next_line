@@ -55,6 +55,17 @@ int	ft_copy_source(char *src, char *line, char **surplus, size_t *idx)
 	return (0);
 }
 
+ssize_t	read_buffer(int fd, char *buff)
+{
+	ssize_t	read_byte;
+
+	read_byte = read(fd, buff, BUFFER_SIZE);
+	if (read_byte < 0)
+		return (-1);
+	buff[read_byte] = '\0';
+	return (read_byte);
+}
+
 char	*ft_get_line(int fd, char *buff, char **surplus, size_t *idx)
 {
 	char		*line;
@@ -67,8 +78,7 @@ char	*ft_get_line(int fd, char *buff, char **surplus, size_t *idx)
 	if (ft_copy_source(*surplus, line, surplus, idx))
 		return (line);
 	size = ft_strlen(line);
-	read_byte = read(fd, buff, BUFFER_SIZE);
-	buff[read_byte] = '\0';
+	read_byte = read_buffer(fd, buff);
 	while (read_byte > 0)
 	{
 		line = ft_realloc(line, &size);
@@ -76,13 +86,12 @@ char	*ft_get_line(int fd, char *buff, char **surplus, size_t *idx)
 			return (line);
 		if (line == NULL || surplus == NULL)
 			return (ft_free_candidates(buff, line, *surplus));
-		read_byte = read(fd, buff, BUFFER_SIZE);
-		buff[read_byte] = '\0';
+		read_byte = read_buffer(fd, buff);
 	}
 	if (read_byte != -1 && line[0] != '\0')
 		return (line);
-	// 連結リストの解放処理をしたいが、入らない
-	return (ft_free_candidates(buff, line, *surplus));
+	else
+		return (ft_free_candidates(buff, line, *surplus));
 }
 
 char	*get_next_line(int fd)
@@ -95,7 +104,7 @@ char	*get_next_line(int fd)
 	idx = 0;
 	if (fd < 0)
 		return (NULL);
-	if (BUFFER_SIZE < 0 || BUFFER_SIZE >= INT_MAX)
+	if (BUFFER_SIZE < 0 || BUFFER_SIZE >= SSIZE_MAX)
 		return (NULL);
 	if (files == NULL)
 	{
