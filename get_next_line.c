@@ -33,8 +33,11 @@ char	*ft_make_surplus(char *src, size_t src_len)
 int	ft_copy_source(char *src, char *line, char **surplus, size_t *idx)
 {
 	size_t	i;
+	char	*start;
 	bool	is_line;
 
+	if (src == NULL)
+		return (0);
 	i = 0;
 	is_line = false;
 	while (src[i] != '\0')
@@ -49,10 +52,10 @@ int	ft_copy_source(char *src, char *line, char **surplus, size_t *idx)
 		}
 	}
 	line[*idx] = '\0';
+	start = *surplus;
 	*surplus = ft_make_surplus(&src[i], ft_strlen(src) - i);
-	if (is_line == true)
-		return (1);
-	return (0);
+	free(start);
+	return (is_line);
 }
 
 ssize_t	read_buffer(int fd, char *buff)
@@ -66,7 +69,7 @@ ssize_t	read_buffer(int fd, char *buff)
 	return (read_byte);
 }
 
-char	*ft_get_line(int fd, char *buff, char **surplus, size_t *idx)
+char	*ft_get_line(int fd, char *buff, t_file *file, size_t *idx)
 {
 	char		*line;
 	size_t		size;
@@ -74,24 +77,24 @@ char	*ft_get_line(int fd, char *buff, char **surplus, size_t *idx)
 
 	line = malloc(sizeof(int) * (BUFFER_SIZE + 1));
 	if (line == NULL)
-		return (ft_free_candidates(buff, NULL, *surplus));
-	if (ft_copy_source(*surplus, line, surplus, idx))
-		return (line);
+		return (ft_free_return_res(buff, NULL, NULL, false));
+	if (ft_copy_source(file->surplus, line, &(file->surplus), idx))
+		return (ft_free_return_res(buff, line, NULL, true));
 	size = ft_strlen(line);
 	read_byte = read_buffer(fd, buff);
 	while (read_byte > 0)
 	{
 		line = ft_realloc(line, &size);
-		if (ft_copy_source(buff, line, surplus, idx))
-			return (line);
-		if (line == NULL || surplus == NULL)
-			return (ft_free_candidates(buff, line, *surplus));
+		if (ft_copy_source(buff, line, &(file->surplus), idx))
+			return (ft_free_return_res(buff, line, NULL, true));
+		if (line == NULL || file->surplus == NULL)
+			return (ft_free_return_res(buff, line, NULL, false));
 		read_byte = read_buffer(fd, buff);
 	}
 	if (read_byte != -1 && line[0] != '\0')
-		return (line);
+		return (ft_free_return_res(buff, line, NULL, true));
 	else
-		return (ft_free_candidates(buff, line, *surplus));
+		return (ft_free_return_res(buff, line, file, false));
 }
 
 char	*get_next_line(int fd)
@@ -119,30 +122,33 @@ char	*get_next_line(int fd)
 	buff = malloc(sizeof(int) * (BUFFER_SIZE + 1));
 	if (buff == NULL)
 		return (NULL);
-	return (ft_get_line(fd, buff, &(file->surplus), &idx));
+	return (ft_get_line(fd, buff, file, &idx));
 }
 
-#include <stdio.h>
-#include <fcntl.h>
+//#include <stdio.h>
+//#include <fcntl.h>
 
-int	main(void)
-{
-	int fd_1 = open("rui.txt", O_RDONLY);
-	int fd_2 = open("takano.txt", O_RDONLY);
-	int fd_3 = open("Pawmot.txt", O_RDONLY);
-	int fd_null = open("this_file_is_not_exist", O_RDONLY);
-	char	*line;
-	for (int i = 0; i < 10; i++)
-	{
-		line = get_next_line(fd_1);
-		printf("%s", line);
-		line = get_next_line(fd_2);
-		printf("%s", line);
-		line = get_next_line(fd_3);
-		printf("%s", line);
-		line = get_next_line(fd_null);
-		printf("%s", line);
-		printf("\n\n");
-		free(line);
-	}
-}
+//int	main(void)
+//{
+//	int fd_1 = open("rui.txt", O_RDONLY);
+//	int fd_2 = open("takano.txt", O_RDONLY);
+//	int fd_3 = open("pawmot.txt", O_RDONLY);
+//	int fd_null = open("this_file_is_not_exist", O_RDONLY);
+//	char	*line;
+//	for (int i = 0; i < 10; i++)
+//	{
+//		line = get_next_line(fd_1);
+//		printf("%s", line);
+//		free(line);
+//		line = get_next_line(fd_2);
+//		printf("%s", line);
+//		free(line);
+//		line = get_next_line(fd_3);
+//		printf("%s", line);
+//		free(line);
+//		line = get_next_line(fd_null);
+//		printf("%s", line);
+//		free(line);
+//		printf("\n\n");
+//	}
+//}

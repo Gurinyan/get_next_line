@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rutakano <rutakano@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 17:34:49 by rutakano          #+#    #+#             */
-/*   Updated: 2026/10/27 17:34:51 by rutakano         ###   ########.fr       */
+/*   Updated: 2026/11/07 15:58:28 by rutakano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,14 @@ char	*ft_make_surplus(char *src, size_t src_len)
 	return (str);
 }
 
-int	ft_copy_source(char *src, char *line, t_file *file, size_t *idx)
+int	ft_copy_source(char *src, char *line, char **surplus, size_t *idx)
 {
 	size_t	i;
+	char	*start;
 	bool	is_line;
 
+	if (src == NULL)
+		return (0);
 	i = 0;
 	is_line = false;
 	while (src[i] != '\0')
@@ -49,10 +52,21 @@ int	ft_copy_source(char *src, char *line, t_file *file, size_t *idx)
 		}
 	}
 	line[*idx] = '\0';
-	file->surplus = ft_make_surplus(&src[i], ft_strlen(src) - i);
-	if (is_line == true)
-		return (1);
-	return (0);
+	start = *surplus;
+	*surplus = ft_make_surplus(&src[i], ft_strlen(src) - i);
+	free(start);
+	return (is_line);
+}
+
+ssize_t	read_buffer(int fd, char *buff)
+{
+	ssize_t	read_byte;
+
+	read_byte = read(fd, buff, BUFFER_SIZE);
+	if (read_byte < 0)
+		return (-1);
+	buff[read_byte] = '\0';
+	return (read_byte);
 }
 
 char	*ft_get_line(int fd, char *buff, t_file *file, size_t *idx)
@@ -63,25 +77,24 @@ char	*ft_get_line(int fd, char *buff, t_file *file, size_t *idx)
 
 	line = malloc(sizeof(int) * (BUFFER_SIZE + 1));
 	if (line == NULL)
-		return (ft_free_candidates(buff, NULL, file));
-	if (ft_copy_source(file->surplus, line, file, idx))
-		return (line);
+		return (ft_free_return_res(buff, NULL, NULL, false));
+	if (ft_copy_source(file->surplus, line, &(file->surplus), idx))
+		return (ft_free_return_res(buff, line, NULL, true));
 	size = ft_strlen(line);
-	read_byte = read(fd, buff, BUFFER_SIZE);
-	buff[read_byte] = '\0';
+	read_byte = read_buffer(fd, buff);
 	while (read_byte > 0)
 	{
 		line = ft_realloc(line, &size);
-		if (ft_copy_source(buff, line, file, idx))
-			return (line);
+		if (ft_copy_source(buff, line, &(file->surplus), idx))
+			return (ft_free_return_res(buff, line, NULL, true));
 		if (line == NULL || file->surplus == NULL)
-			return (ft_free_candidates(buff, line, file));
-		read_byte = read(fd, buff, BUFFER_SIZE);
-		buff[read_byte] = '\0';
+			return (ft_free_return_res(buff, line, NULL, false));
+		read_byte = read_buffer(fd, buff);
 	}
 	if (read_byte != -1 && line[0] != '\0')
-		return (line);
-	return (ft_free_candidates(buff, line, NULL));
+		return (ft_free_return_res(buff, line, NULL, true));
+	else
+		return (ft_free_return_res(buff, line, file, false));
 }
 
 char	*get_next_line(int fd)
@@ -94,7 +107,7 @@ char	*get_next_line(int fd)
 	idx = 0;
 	if (fd < 0)
 		return (NULL);
-	if (BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
+	if (BUFFER_SIZE < 0 || BUFFER_SIZE >= SSIZE_MAX)
 		return (NULL);
 	if (files == NULL)
 	{
@@ -119,21 +132,23 @@ char	*get_next_line(int fd)
 //{
 //	int fd_1 = open("rui.txt", O_RDONLY);
 //	int fd_2 = open("takano.txt", O_RDONLY);
-//	int fd_3 = open("Pawmot.txt", O_RDONLY);
+//	int fd_3 = open("pawmot.txt", O_RDONLY);
 //	int fd_null = open("this_file_is_not_exist", O_RDONLY);
 //	char	*line;
 //	for (int i = 0; i < 10; i++)
 //	{
 //		line = get_next_line(fd_1);
 //		printf("%s", line);
+//		free(line);
 //		line = get_next_line(fd_2);
 //		printf("%s", line);
+//		free(line);
 //		line = get_next_line(fd_3);
 //		printf("%s", line);
+//		free(line);
 //		line = get_next_line(fd_null);
 //		printf("%s", line);
-//		printf("\n\n");
 //		free(line);
+//		printf("\n\n");
 //	}
-//	printf("%ld", BUFFER_SIZE);
 //}

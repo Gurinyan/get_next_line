@@ -12,17 +12,20 @@
 
 #include "get_next_line.h"
 
-char	*ft_free_candidates(char *buff, char *line, t_file *file)
+char	*ft_free_return_res(char *buff, char *line, t_file *file, bool is_line)
 {
 	if (buff != NULL)
 		free(buff);
-	if (line != NULL)
+	if (line != NULL && is_line == false)
+	{
 		free(line);
+		return (NULL);
+	}
 	if (file != NULL)
 	{
 		free(file->surplus);
 	}
-	return (NULL);
+	return (line);
 }
 
 void	lst_add_back(t_file **files, t_file *new)

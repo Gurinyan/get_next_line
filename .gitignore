@@ -1,1 +1,10 @@
 .vscode/get_next_line_debug
+.vscode/debug_input.txt
+.vscode/extensions.json
+.vscode/get_next_line_debug.dSYM/Contents/Info.plist
+.vscode/get_next_line_debug.dSYM/Contents/Resources/DWARF/get_next_line_debug
+.vscode/get_next_line_debug.dSYM/Contents/Resources/Relocations/aarch64/get_next_line_debug.yml
+.vscode/launch.json
+.vscode/tasks.json
+a.out
+*.o
