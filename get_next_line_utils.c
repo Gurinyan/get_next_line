@@ -24,6 +24,7 @@ char	*ft_free_return_res(char *buff, char *line, t_file *file, bool is_line)
 	if (file != NULL)
 	{
 		free(file->surplus);
+		file->surplus = NULL;
 	}
 	return (line);
 }

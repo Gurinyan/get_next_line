@@ -125,30 +125,30 @@ char	*get_next_line(int fd)
 	return (ft_get_line(fd, buff, file, &idx));
 }
 
-//#include <stdio.h>
-//#include <fcntl.h>
+#include <stdio.h>
+#include <fcntl.h>
 
-//int	main(void)
-//{
-//	int fd_1 = open("rui.txt", O_RDONLY);
-//	int fd_2 = open("takano.txt", O_RDONLY);
-//	int fd_3 = open("pawmot.txt", O_RDONLY);
-//	int fd_null = open("this_file_is_not_exist", O_RDONLY);
-//	char	*line;
-//	for (int i = 0; i < 10; i++)
-//	{
-//		line = get_next_line(fd_1);
-//		printf("%s", line);
-//		free(line);
-//		line = get_next_line(fd_2);
-//		printf("%s", line);
-//		free(line);
-//		line = get_next_line(fd_3);
-//		printf("%s", line);
-//		free(line);
-//		line = get_next_line(fd_null);
-//		printf("%s", line);
-//		free(line);
-//		printf("\n\n");
-//	}
-//}
+int	main(void)
+{
+	int fd_1 = open("rui.txt", O_RDONLY);
+	int fd_2 = open("takano.txt", O_RDONLY);
+	int fd_3 = open("pawmot.txt", O_RDONLY);
+	int fd_null = open("this_file_is_not_exist", O_RDONLY);
+	char	*line;
+	for (int i = 0; i < 10; i++)
+	{
+		line = get_next_line(fd_1);
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd_2);
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd_3);
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd_null);
+		printf("%s", line);
+		free(line);
+		printf("\n\n");
+	}
+}

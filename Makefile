@@ -8,7 +8,7 @@ HEADERS=get_next_line.h
 BONUS=get_next_line_bonus
 SRCS_BONUS=get_next_line_bonus.c\
 			get_next_line_utils_bonus.c
-OBJS_BONUS=$(SRC_BONUS:.c=.o)
+OBJS_BONUS=$(SRCS_BONUS:.c=.o)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -32,4 +32,4 @@ clean:
 
 re: fclean all
 
-.PHONY: all bonus fclean clean re
+.PHONY: all bonus fclean clean re bonus
