@@ -42,9 +42,10 @@ get_next_line()で読むためのファイルを、クローンしたディレ�
 
 一つ前のコミットから、テスト用に用意された３つのtxtファイルを利用することができます。
 ```c
-git show HEAD^ pawmot.txt > pawmot.txt
-git show HEAD^ rui.txt > rui.txt
-git show HEAD^ takano.txt > takano.txt
+git show HEAD~1 pawmot.txt > pawmot.txt
+git show HEAD~1 rui.txt > rui.txt
+git show HEAD~1 takano.txt > takano.txt
+git show HEAD~1 Makefile > Makefile
 ```
 Makefileを用いて、get_next_line.cとget_next_liine_utils.cをコンパイルします。以下から、どれか一つのコマンドを利用することでコンパイルが可能です。
 ```c
@@ -167,9 +168,10 @@ Prepare the files you want to read with `get_next_line()` inside the cloned dire
 
 You can retrieve the three text files provided for testing from the previous commit:
 ```sh
-git show HEAD^ pawmot.txt > pawmot.txt
-git show HEAD^ rui.txt > rui.txt
-git show HEAD^ takano.txt > takano.txt
+git show HEAD~1 pawmot.txt > pawmot.txt
+git show HEAD~1 rui.txt > rui.txt
+git show HEAD~1 takano.txt > takano.txt
+git show HEAD~1 Makefile > Makefile
 ```
 Use the Makefile to compile `get_next_line.c` and `get_next_line_utils.c`. Any one of the following commands can be used:
 ```sh
